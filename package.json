@@ -15,7 +15,8 @@
     "firebase": "^4.13.1",
     "node-schedule": "^1.3.0",
     "node-vk-bot-api": "^1.2.0",
-    "node-vkapi": "^3.0.7"
+    "node-vkapi": "^3.0.7",
+    "sourcebuster": "^1.1.0"
   },
   "engines": {
     "node": "8.9.3",
