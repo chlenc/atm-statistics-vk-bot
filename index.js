@@ -73,7 +73,7 @@ bot.command('7am', ctx => {
                     database.getData(`users/${ctx.user_id}/state`, function (state, error) {
                         if (!error && state === 'video4_1') {
                             database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'});
-                            ctx.reply(frases[data.state]);
+                            ctx.reply(frases[state]);
                         }
                     })
                 }, 30000)//172800000)
