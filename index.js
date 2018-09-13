@@ -69,6 +69,7 @@ bot.command('7am', ctx => {
             } else if (data.state === 'video5_pay') {
                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'});
                 ctx.reply(frases.video5_pay(ctx.user_id));
+                ctx.reply('start 30sec timer');
                 setTimeout(function () {
                     database.getData(`users/${ctx.user_id}/state`, function (state, error) {
                         if (!error && state === 'video4_1') {
@@ -191,47 +192,47 @@ bot.on(({reply}) => reply(frases.error))
 //
 
 
-app.use(bodyParser.json());
-app.post("/", function (req, res) {
-    if (!req.body) return res.sendStatus(400);
-    else if (req.body.salesjet_request) {
-        // console.log(req.body);
-        var ctx = req.body.data;
-        switch (req.body.data.event) {
-            case 'pay1':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'})
-                bot.reply(ctx.user_id, frases.video4)
-                break;
-            case 'pay2':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
-                bot.reply(ctx.user_id, frases.video5)
-                break;
-            case 'youtube1':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'})
-                bot.reply(ctx.user_id, frases.video4_1)
-                setTimeout(function () {
-                    database.getData(`users/${ctx.user_id}/state`, function (state, error) {
-                        if (!error && state === 'video4_2') {
-                            database.updateData(`users/${ctx.user_id}`, {state: 'video4_3'});
-                            bot.reply(ctx.user_id, frases.video4_2);
-                            setTimeout(function () {
-                                ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-                            }, 900000)
-                        }
-                    })
-                }, 30000)//86400000)/
-                break;
-            case 'youtube2':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
-                ctx.reply(frases.video5_1)
-                break;
-        }
-        return res.sendStatus(200)
-    }
-    else {
-        bot.listen(req, res)
-    }
-});
+// app.use(bodyParser.json());
+// app.post("/", function (req, res) {
+//     if (!req.body) return res.sendStatus(400);
+//     else if (req.body.salesjet_request) {
+//         // console.log(req.body);
+//         var ctx = req.body.data;
+//         switch (req.body.data.event) {
+//             case 'pay1':
+//                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'})
+//                 bot.reply(ctx.user_id, frases.video4)
+//                 break;
+//             case 'pay2':
+//                 database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
+//                 bot.reply(ctx.user_id, frases.video5)
+//                 break;
+//             case 'youtube1':
+//                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'})
+//                 bot.reply(ctx.user_id, frases.video4_1)
+//                 setTimeout(function () {
+//                     database.getData(`users/${ctx.user_id}/state`, function (state, error) {
+//                         if (!error && state === 'video4_2') {
+//                             database.updateData(`users/${ctx.user_id}`, {state: 'video4_3'});
+//                             bot.reply(ctx.user_id, frases.video4_2);
+//                             setTimeout(function () {
+//                                 ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+//                             }, 900000)
+//                         }
+//                     })
+//                 }, 30000)//86400000)/
+//                 break;
+//             case 'youtube2':
+//                 database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
+//                 ctx.reply(frases.video5_1)
+//                 break;
+//         }
+//         return res.sendStatus(200)
+//     }
+//     else {
+//         bot.listen(req, res)
+//     }
+// });
 
 
 // app.post('/', bot.listen);
