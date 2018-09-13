@@ -69,10 +69,14 @@ bot.command('7am', ctx => {
             } else if (data.state === 'video5_pay') {
                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'});
                 ctx.reply(frases.video5_pay(ctx.user_id));
-            } else if (data.state === 'video4_1') {
-                database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'});
-                ctx.reply(frases[data.state]);
-                flag = true;
+                setTimeout(function () {
+                    database.getData(`users/${ctx.user_id}/state`, function (state, error) {
+                        if (!error && state === 'video4_1') {
+                            database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'});
+                            ctx.reply(frases[data.state]);
+                        }
+                    })
+                }, 30000)//172800000)
             } else if (data.state === 'video4_2') {
                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_3'});
                 ctx.reply(frases[data.state]);
@@ -145,6 +149,10 @@ bot.command('3', function (ctx) {
 })
 bot.command('4', function (ctx) {
     console.log('call')
+})
+bot.command('stop', function (ctx) {
+    ctx.sendMessage(ctx.user_id, 'bot has been stopped');
+    database.updateData(`users/${ctx.user_id}`, {state: 'none'});
 })
 
 //===============================================
