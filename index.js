@@ -184,35 +184,32 @@ app.use(bodyParser.json());
 app.post("/", function (req, res) {
     if(!req.body) return res.sendStatus(400);
     else if(req.body.salesjet_request) {
-        console.log(req.body);
+        // console.log(req.body);
         var ctx = req.body.data;
         switch (req.body.data.event) {
             case 'pay1':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'})
-                bot.reply(ctx.user_id, frases.video4)
+                bot.reply(ctx.user_id, frases.video5);
                 break;
             case 'pay2':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
-                bot.reply(ctx.user_id, frases.video5)
+                bot.reply(ctx.user_id, frases.video6);
                 break;
-            case 'youtube1':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'})
-                bot.reply(ctx.user_id, frases.video4_1)
+            case 'watch1':
+                bot.reply(ctx.user_id, frases.video6_pay(ctx.user_id));
+                database.updateData(`users/${ctx.user_id}`, {state: 'video3_1'});
                 setTimeout(function () {
                     database.getData(`users/${ctx.user_id}/state`, function (state, error) {
-                        if (!error && state === 'video4_2') {
-                            database.updateData(`users/${ctx.user_id}`, {state: 'video4_3'});
-                            bot.reply(ctx.user_id, frases.video4_2);
+                        if (!error && state === 'video3_1') {
+                            database.updateData(`users/${ctx.user_id}`, {state: 'video3_2'});
+                            ctx.reply(frases[state]);
                             setTimeout(function () {
                                 ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-                            }, 900000)
+                            }, 5000)//900000)
                         }
                     })
-                }, 30000)//86400000)/
+                }, 30000)//129600000)
                 break;
-            case 'youtube2':
-                database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
-                ctx.reply(frases.video5_1)
+            case 'watch2':
+                bot.reply(ctx.user_id, frases.video7_about);
                 break;
         }
         return res.sendStatus(200)
