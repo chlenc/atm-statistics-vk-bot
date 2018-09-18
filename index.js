@@ -1,19 +1,15 @@
 const PORT = process.env.PORT || 5000;
 const TOKEN = process.env.TOKEN || '1c895e91714abb108a4482c8c93241aeda0b7d14a6346d57a4e1a2c7d4601641c46a924ed6bb62f15fef1';
 const CONFIRMATION = process.env.CONFIRMATION || '52b0f97b';
-//https://salty-plateau-34840.herokuapp.com/
+
 const frases = require('./frases')
-// const helpers = require('./helpers')
-// const schedule = require('node-schedule');
 const database = require('./database')
-// const videos = require('./videos')
 
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
 const {Botact} = require('botact');
-
 
 const bot = new Botact({
     confirmation: CONFIRMATION,
@@ -22,9 +18,6 @@ const bot = new Botact({
 
 //=====================INIT==================================
 
-// bot.command('start', function (ctx) {
-//
-// });
 
 bot.hears(/(start|Start|Старт|старт|Поехали!|поехали|Поехали|поехали!|Начинаем|Го|Go|go|го|Он сказал поехали и махнул рукой)/, function (ctx) {
     database.updateData(`users/${ctx.user_id}`, {state: 'video1_2'});
@@ -142,12 +135,12 @@ bot.command('2', function (ctx) {
         ctx.sendMessage(ctx.user_id, frases.homeTrigger)
     }, 5000)
 })
-bot.command('3', function (ctx) {
-    ctx.reply(frases.aboutCompany);
-    setTimeout(function () {
-        ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-    }, 5000)
-})
+// bot.command('3', function (ctx) {
+//     ctx.reply(frases.aboutCompany);
+//     setTimeout(function () {
+//         ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+//     }, 5000)
+// })
 bot.command('4', function (ctx) {
     console.log('call')
 })
@@ -185,56 +178,55 @@ bot.command('onwatch2', function (ctx) {
 
 
 bot.on(({reply}) => reply(frases.error))
-// app.use(bodyParser.urlencoded({
-//     extended: true
-// }));
-// app.use(bodyParser.json());
-//
 
 
-// app.use(bodyParser.json());
-// app.post("/", function (req, res) {
-//     if (!req.body) return res.sendStatus(400);
-//     else if (req.body.salesjet_request) {
-//         // console.log(req.body);
-//         var ctx = req.body.data;
-//         switch (req.body.data.event) {
-//             case 'pay1':
-//                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'})
-//                 bot.reply(ctx.user_id, frases.video4)
-//                 break;
-//             case 'pay2':
-//                 database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
-//                 bot.reply(ctx.user_id, frases.video5)
-//                 break;
-//             case 'youtube1':
-//                 database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'})
-//                 bot.reply(ctx.user_id, frases.video4_1)
-//                 setTimeout(function () {
-//                     database.getData(`users/${ctx.user_id}/state`, function (state, error) {
-//                         if (!error && state === 'video4_2') {
-//                             database.updateData(`users/${ctx.user_id}`, {state: 'video4_3'});
-//                             bot.reply(ctx.user_id, frases.video4_2);
-//                             setTimeout(function () {
-//                                 ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-//                             }, 900000)
-//                         }
-//                     })
-//                 }, 30000)//86400000)/
-//                 break;
-//             case 'youtube2':
-//                 database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
-//                 ctx.reply(frases.video5_1)
-//                 break;
-//         }
-//         return res.sendStatus(200)
-//     }
-//     else {
-//         bot.listen(req, res)
-//     }
-// });
+app.use(bodyParser.json());
+app.post("/", function (req, res) {
+    if(!req.body) return res.sendStatus(400);
+    else if(req.body.salesjet_request) {
+        console.log(req.body);
+        var ctx = req.body.data;
+        switch (req.body.data.event) {
+            case 'pay1':
+                database.updateData(`users/${ctx.user_id}`, {state: 'video4_1'})
+                bot.reply(ctx.user_id, frases.video4)
+                break;
+            case 'pay2':
+                database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
+                bot.reply(ctx.user_id, frases.video5)
+                break;
+            case 'youtube1':
+                database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'})
+                bot.reply(ctx.user_id, frases.video4_1)
+                setTimeout(function () {
+                    database.getData(`users/${ctx.user_id}/state`, function (state, error) {
+                        if (!error && state === 'video4_2') {
+                            database.updateData(`users/${ctx.user_id}`, {state: 'video4_3'});
+                            bot.reply(ctx.user_id, frases.video4_2);
+                            setTimeout(function () {
+                                ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+                            }, 900000)
+                        }
+                    })
+                }, 30000)//86400000)/
+                break;
+            case 'youtube2':
+                database.updateData(`users/${ctx.user_id}`, {state: 'video5_1'})
+                ctx.reply(frases.video5_1)
+                break;
+        }
+        return res.sendStatus(200)
+    }
+    else{
+        bot.listen(req, res)
+    }
+});
 
 
-// app.post('/', bot.listen);
 app.listen(PORT);
 console.log('\nbot has been started');
+
+
+
+
+
