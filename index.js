@@ -127,16 +127,16 @@ bot.command('7am', ctx => {
 
 
 bot.command('1', function (ctx) {
-    ctx.reply(frases.plan);
-    setTimeout(function () {
-        ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-    }, 5000)
+    ctx.reply(frases.aboutAuthor);
+    // setTimeout(function () {
+    //     ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+    // }, 5000)
 })
 bot.command('2', function (ctx) {
-    ctx.reply(frases.aboutAuthor);
-    setTimeout(function () {
-        ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-    }, 5000)
+    ctx.reply(frases.aboutCompany);
+    // setTimeout(function () {
+    //     ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+    // }, 5000)
 })
 // bot.command('3', function (ctx) {
 //     ctx.reply(frases.aboutCompany);
