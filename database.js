@@ -27,7 +27,4 @@ module.exports = {
     removeData(path){
         firebase.database().ref(path).remove(data)
     }
-    // getAllData(){
-    //
-    // },
 }

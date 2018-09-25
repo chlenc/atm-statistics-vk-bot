@@ -1,3 +1,6 @@
+var utf8 = require('utf8');
+var request = require('request');
+
 module.exports = {
     video1_1: 'https://goo.gl/u5mqca',//http://видео.атм-мотивация.рф/?utm_source=vk&utm_medium=message&utm_campaign=funnel_1&utm_content=video1_1&utm_term=video+lesson+1',
     video1_2: 'https://goo.gl/v8AFJJ',//http://видео.атм-мотивация.рф/?utm_source=vk&utm_medium=message&utm_campaign=funnel_1&utm_content=video1_2&utm_term=video+lesson+2',
@@ -18,28 +21,45 @@ module.exports = {
     video7_about: 'https://goo.gl/1kqtPY',//http://финансовое-планирование.рф/?utm_source=vk&utm_medium=message&utm_campaign=funnel_1&utm_content=video7_about&utm_term=about_fp',
 
 
-    video5_pay(id){return `http://оплата.атм-гденьги.рф/checkout/162?p=0a2352e8-2758-e811-a99e-dfcd291211f5&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`},
-    video5_1_pay(id){return `http://оплата.атм-гденьги.рф/checkout/162?p=0a2352e8-2758-e811-a99e-dfcd291211f5&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`},
-    video6_pay(id){ `http://оплата.атм-интенсив.рф/checkout/246?p=52a8ba0b-d894-e811-a9a1-cd0220c5658a&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`},
-    video6_1_pay(id){return `http://оплата.атм-интенсив.рф/checkout/246?p=52a8ba0b-d894-e811-a9a1-cd0220c5658a&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`},
-    video6_2_pay(id){return `http://оплата.атм-интенсив.рф/checkout/246?p=52a8ba0b-d894-e811-a9a1-cd0220c5658a&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`},
+    video5_pay(id, callback) {
+        var link = `http://оплата.атм-гденьги.рф/checkout/162?p=0a2352e8-2758-e811-a99e-dfcd291211f5&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`;
+        request('https://clck.ru/--?url=' + utf8.encode(link), function (error, response, body) {
+            callback((error !== null) ? link : body)
+        })
+    },
+    video5_1_pay(id, callback) {
 
-    // video3npPay1: 'атм-мотивация.рф',
-    // video3npPay2_next: 'атм-мотивация.рф',
-    // video3npPay2_about: 'атм-мотивация.рф',
-    // video3npPay3: 'атм-мотивация.рф',
-    // video3npPay4: 'атм-мотивация.рф',
-    // video3npPay5: 'атм-мотивация.рф',
-    //
-    // video4: 'атм-мотивация.рф',
-    // video4_1_pay: 'атм-мотивация.рф',
-    // video4_1_more: 'атм-мотивация.рф',
-    // video4_2: 'атм-мотивация.рф',
-    // video4_3: 'атм-мотивация.рф',
-    // video4_4: 'атм-мотивация.рф',
-    // video4_5: 'атм-мотивация.рф',
-    // video4_6: 'атм-мотивация.рф',
-    //
-    // video5: 'атм-мотивация.рф',
-    // video5_about: 'атм-мотивация.рф',
+        var link = `http://оплата.атм-гденьги.рф/checkout/162?p=0a2352e8-2758-e811-a99e-dfcd291211f5&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`;
+        request('https://clck.ru/--?url=' + utf8.encode(link), function (error, response, body) {
+            callback((error !== null) ? link : body)
+        })
+
+    },
+    video6_pay(id, callback) {
+
+        var link = `http://оплата.атм-интенсив.рф/checkout/246?p=52a8ba0b-d894-e811-a9a1-cd0220c5658a&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`;
+        request('https://clck.ru/--?url=' + utf8.encode(link), function (error, response, body) {
+            callback((error !== null) ? link : body)
+        })
+
+
+    },
+    video6_1_pay(id, callback) {
+
+        var link = `http://оплата.атм-интенсив.рф/checkout/246?p=52a8ba0b-d894-e811-a9a1-cd0220c5658a&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`;
+        request('https://clck.ru/--?url=' + utf8.encode(link), function (error, response, body) {
+            callback((error !== null) ? link : body)
+        })
+
+    },
+    video6_2_pay(id, callback) {
+
+        var link = `http://оплата.атм-интенсив.рф/checkout/246?p=52a8ba0b-d894-e811-a9a1-cd0220c5658a&attr=a8134ba7-d794-e811-a9a1-cd0220c5658a:${id}`;
+        request('https://clck.ru/--?url=' + utf8.encode(link), function (error, response, body) {
+            callback((error !== null) ? link : body)
+        })
+
+
+    },
+
 }
