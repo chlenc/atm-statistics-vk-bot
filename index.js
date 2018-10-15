@@ -97,7 +97,7 @@ bot.command('7am', ctx => {
                     ctx.reply(link)
                 });
             } else if (data.state === 'video5_1_pay') {
-                database.updateData(`users/${ctx.user_id}`, {state: 'none'});
+                database.updateData(`users/${ctx.user_id}`, {state: 'watch1'});
                 frases.video5_1_pay(ctx.user_id, function (link) {
                     ctx.reply(link)
                 });
@@ -125,7 +125,7 @@ bot.command('7am', ctx => {
                             setTimeout(function () {
                                 database.getData(`users/${ctx.user_id}/state`, function (state, error) {
                                     if (!error && state === 'video6_2_pay') {
-                                        database.updateData(`users/${ctx.user_id}`, {state: 'none'});
+                                        database.updateData(`users/${ctx.user_id}`, {state: 'watch2'});
                                         frases.video6_2_pay(ctx.user_id, function (link) {
                                             ctx.reply(link)
                                         });

@@ -8,7 +8,6 @@ module.exports = {
         request(requestParams, function (error, response, body) {
             callback((error !== null) ? link : body)
         })
-
     },
     video1_2(id, callback) {
         var link = `http://видео.атм-мотивация.рф/?utm_source=vk&utm_medium=message&utm_campaign=funnel_1&utm_content=video1_2&utm_term=video+lesson+2&id=${id}`;
