@@ -82,6 +82,7 @@ bot.command('7am', ctx => {
                             database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'});
                             frases.video4_1(ctx.user_id, function (link) {
                                 ctx.reply(link)
+                                flag = true
                             });
                         }
                     })
