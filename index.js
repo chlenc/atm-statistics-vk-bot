@@ -59,7 +59,7 @@ bot.command('7am', ctx => {
     //console.log(ctx)
     database.getData(`users/${ctx.user_id}`, function (data, error) {
         if (!error && data.state !== undefined) {
-            var flag = false;
+            // var flag = false;
             if (data.state === 'video1_2') {
                 database.updateData(`users/${ctx.user_id}`, {state: 'video1_3'});
                 frases.video1_2(ctx.user_id, function (link) {
@@ -82,7 +82,9 @@ bot.command('7am', ctx => {
                             database.updateData(`users/${ctx.user_id}`, {state: 'video4_2'});
                             frases.video4_1(ctx.user_id, function (link) {
                                 ctx.reply(link)
-                                flag = true
+                                setTimeout(function () {
+                                    ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+                                }, 5000)//900000)
                             });
                         }
                     })
@@ -130,6 +132,9 @@ bot.command('7am', ctx => {
                                         frases.video6_2_pay(ctx.user_id, function (link) {
                                             ctx.reply(link)
                                         });
+                                        setTimeout(function () {
+                                            ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+                                        }, 5000)//900000)
                                     }
                                 })
                             }, 30000)//172800000)
@@ -138,11 +143,11 @@ bot.command('7am', ctx => {
                     })
                 }, 30000)//43500000 )
             }
-            if (flag) {
-                setTimeout(function () {
-                    ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-                }, 5000)//900000)
-            }
+            // if (flag) {
+            //     setTimeout(function () {
+            //         ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+            //     }, 5000)//900000)
+            // }
 
 
         } else {
@@ -184,6 +189,11 @@ bot.hears(/(call)/, function (ctx) {
 
 
 bot.command('Stop', function (ctx) {
+    ctx.sendMessage(ctx.user_id, 'Бот был остановлен');
+    database.updateData(`users/${ctx.user_id}`, {state: 'none'});
+})
+
+bot.command('stop', function (ctx) {
     ctx.sendMessage(ctx.user_id, 'Бот был остановлен');
     database.updateData(`users/${ctx.user_id}`, {state: 'none'});
 })

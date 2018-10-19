@@ -60,6 +60,7 @@ module.exports = {
     },
     video2_1(id, callback) {
         var link = `http://видео.атм-фонды.рф/?utm_source=vk&utm_medium=message&utm_campaign=funnel_1&utm_content=video2_1&utm_term=video+lesson+1&id=${id}`;
+        var link = `http://видео.атм-затраты.рф/?utm_source=vk&utm_medium=message&utm_campaign=funnel_1&utm_content=video2_1&utm_term=video+lesson+1&id=${id}`
         var requestParams = {method: 'GET', url: 'https://clck.ru/--', qs: {url: link}}
         request(requestParams, function (error, response, body) {
             callback((error !== null) ? link : body)
