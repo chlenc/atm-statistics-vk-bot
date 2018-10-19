@@ -132,9 +132,9 @@ bot.command('7am', ctx => {
                                         frases.video6_2_pay(ctx.user_id, function (link) {
                                             ctx.reply(link)
                                         });
-                                        setTimeout(function () {
-                                            ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-                                        }, 5000)//900000)
+                                        // setTimeout(function () {
+                                        //     ctx.sendMessage(ctx.user_id, frases.homeTrigger)
+                                        // }, 5000)//900000)
                                     }
                                 })
                             }, 30000)//172800000)
