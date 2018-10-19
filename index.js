@@ -123,7 +123,7 @@ bot.command('7am', ctx => {
                             });
                             setTimeout(function () {
                                 ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-                            }, 200)//900000);
+                            }, 5000)//900000);
 
                             setTimeout(function () {
                                 database.getData(`users/${ctx.user_id}/state`, function (state, error) {
