@@ -12,6 +12,9 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
+const schedule = require('node-schedule'); // !!!
+
+
 const {Botact} = require('botact');
 
 const bot = new Botact({
@@ -25,22 +28,22 @@ const bot = new Botact({
 
 function sendState(ctx, thisState, nextState, about) {
     console.log(thisState)
-    database.updateData(`${DIR}/users/${ctx.user_id}`, {state: nextState});
+    database.updateData(`${DIR}/users/vk/${ctx.user_id}`, {state: nextState});
     frases[thisState](ctx.user_id, function (link) {
-        ctx.reply(link)
+        bot.reply(+ctx.user_id, link)
     });
     if (about) {
         setTimeout(function () {
             console.log("about")
-            ctx.sendMessage(ctx.user_id, frases.homeTrigger)
-        }, 1000)//900000)
+            bot.reply(+ctx.user_id, frases.homeTrigger)
+        }, 900000)//900000)
     }
 }
 
 function sendTimeoutState(ctx, thisState, nextState, timeout, about) {
     console.log(thisState + " timeout " + (timeout / 1000))
     return setTimeout(function () {
-        database.getData(DIR + "/" + `users/${ctx.user_id}/state`, function (state, error) {
+        database.getData(DIR + "/" + `users/vk/${ctx.user_id}/state`, function (state, error) {
             if (!error && state === thisState) {
                 sendState(ctx, thisState, nextState, about);
             }
@@ -73,45 +76,52 @@ bot.command('test', function (ctx) {
 
 //=====================7am==================================
 
-bot.command('7am', ctx => {
-    database.getData(DIR + "/" + `users/${ctx.user_id}`, function (data, error) {
-        if (!error && data.state !== undefined) {
+schedule.scheduleJob('7 * * *', function () {
+    database.getData(DIR + "/" + `users/vk/`, function (users, error) {
+        if (users && !error) {
+            for (var temp in users) {
+                var ctx = {user_id: temp}
+                console.log(ctx)
+                var data = users[temp]
+                if (!error && data.state !== undefined) {
 
-            if (data.state === 'video4_2') {
-                sendState(ctx, "video4_2", "video4_3")
 
-            } else if (data.state === 'video4_3') {
-                sendState(ctx, "video4_3", "video5_pay")
+                    if (data.state === 'video4_2') {
+                        sendState(ctx, "video4_2", "video4_3")
 
-            }else if (data.state === 'video5_pay') {
-                sendState(ctx, "video5_pay", "video1_1")
-                sendTimeoutState(ctx, "video1_1", "video1_2", 5000, true)//129600000
+                    } else if (data.state === 'video4_3') {
+                        sendState(ctx, "video4_3", "video5_pay")
 
-            }else if (data.state === 'video1_2') {
-                sendState(ctx, "video1_2", "video1_3")
+                    } else if (data.state === 'video5_pay') {
+                        sendState(ctx, "video5_pay", "video1_1")
+                        sendTimeoutState(ctx, "video1_1", "video1_2", 129600000, true)//129600000
 
-            } else if (data.state === 'video1_3') {
-                sendState(ctx, "video1_3", "video5_1_pay")
+                    } else if (data.state === 'video1_2') {
+                        sendState(ctx, "video1_2", "video1_3")
 
-            }else if (data.state === 'video5_1_pay') {
-                sendState(ctx, "video5_1_pay", "watch1")
+                    } else if (data.state === 'video1_3') {
+                        sendState(ctx, "video1_3", "video5_1_pay")
 
+                    } else if (data.state === 'video5_1_pay') {
+                        sendState(ctx, "video5_1_pay", "watch1")
+
+                    }
+
+                    else if (data.state === 'video3_2') {
+                        sendState(ctx, "video3_2", "video6_1_pay")
+
+                    } else if (data.state === 'video6_1_pay') {
+                        sendState(ctx, 'video6_1_pay', 'video2_1');
+                        sendTimeoutState(ctx, "video2_1", "video6_2_pay", 3600000, true)//3600000
+                        sendTimeoutState(ctx, "video6_2_pay", "watch2", 3600000+3600000)//3600000+3600000
+
+                    }
+                } else {
+                    console.log(error)
+                }
             }
-
-            else if (data.state === 'video3_2') {
-                sendState(ctx, "video3_2", "video6_1_pay")
-
-            } else if (data.state === 'video6_1_pay') {
-                sendState(ctx, 'video6_1_pay', 'video2_1');
-                sendTimeoutState(ctx, "video2_1", "video6_2_pay", 5000, true)//3600000
-                sendTimeoutState(ctx, "video6_2_pay", "watch2", 10000)//3600000+3600000
-
-            }
-        } else {
-            console.log(error)
         }
     })
-
 })
 
 
@@ -147,12 +157,12 @@ bot.hears(/(call)/, function (ctx) {
 
 bot.command('Stop', function (ctx) {
     ctx.sendMessage(ctx.user_id, 'Бот был остановлен');
-    database.updateData(`${DIR}/users/${ctx.user_id}`, {state: 'none'});
+    database.updateData(`${DIR}/users/vk/${ctx.user_id}`, {state: 'none'});
 })
 
 bot.command('stop', function (ctx) {
     ctx.sendMessage(ctx.user_id, 'Бот был остановлен');
-    database.updateData(`${DIR}/users/${ctx.user_id}`, {state: 'none'});
+    database.updateData(`${DIR}/users/vk/${ctx.user_id}`, {state: 'none'});
 })
 
 //===============================================
@@ -161,7 +171,7 @@ bot.command('onpay1', function (ctx) {
 })
 bot.command('onwatch1', function (ctx) {
     sendState(ctx, "video6_pay", "video3_1")
-    sendTimeoutState(ctx, "video3_1", "video3_2", 5000, true)//172800000
+    sendTimeoutState(ctx, "video3_1", "video3_2", 172800000, true)//172800000
 })
 bot.command('onpay2', function (ctx) {
     bot.reply(ctx.user_id, frases.video6);
@@ -192,7 +202,7 @@ app.post("/", function (req, res) {
                     break;
                 case 'watch1':
                     sendState(ctx, "video6_pay", "video3_1")
-                    sendTimeoutState(ctx, "video3_1", "video3_2", 5000, true)//172800000
+                    sendTimeoutState(ctx, "video3_1", "video3_2", 172800000, true)//172800000
                     break;
                 case 'watch2':
                     bot.reply(ctx.user_id, frases.video7_about);
