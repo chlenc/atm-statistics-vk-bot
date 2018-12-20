@@ -166,19 +166,19 @@ bot.command('stop', function (ctx) {
 })
 
 //===============================================
-bot.command('onpay1', function (ctx) {
-    bot.reply(ctx.user_id, frases.video5);
-})
-bot.command('onwatch1', function (ctx) {
-    sendState(ctx, "video6_pay", "video3_1")
-    sendTimeoutState(ctx, "video3_1", "video3_2", 172800000, true)//172800000
-})
-bot.command('onpay2', function (ctx) {
-    bot.reply(ctx.user_id, frases.video6);
-})
-bot.command('onwatch2', function (ctx) {
-    bot.reply(ctx.user_id, frases.video7_about);
-})
+// bot.command('onpay1', function (ctx) {
+//     bot.reply(ctx.user_id, frases.video5);
+// })
+// bot.command('onwatch1', function (ctx) {
+//     sendState(ctx, "video6_pay", "video3_1")
+//     sendTimeoutState(ctx, "video3_1", "video3_2", 172800000, true)//172800000
+// })
+// bot.command('onpay2', function (ctx) {
+//     bot.reply(ctx.user_id, frases.video6);
+// })
+// bot.command('onwatch2', function (ctx) {
+//     bot.reply(ctx.user_id, frases.video7_about);
+// })
 //===============================================
 
 
